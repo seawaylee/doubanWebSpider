@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.ncut.doubanWebSpider.dao.BookCommentMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.ncut.doubanWebSpider.model.BookComment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bookno" property="bookno" jdbcType="VARCHAR" />
+    <result column="bookname" property="bookname" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="rating" property="rating" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="DATE" />
+    <result column="usefulnum" property="usefulnum" jdbcType="INTEGER" />
+    <result column="userurl" property="userurl" jdbcType="VARCHAR" />
+    <result column="commenturl" property="commenturl" jdbcType="VARCHAR" />
+    <result column="isbn" property="isbn" jdbcType="VARCHAR" />
+    <result column="userno" property="userno" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bookno, bookname, username, rating, content, time, usefulnum, userurl, commenturl, 
+    isbn, userno
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_bookcomment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_bookcomment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.ncut.doubanWebSpider.model.BookComment" >
+    insert into tb_bookcomment (id, bookno, bookname, 
+      username, rating, content, 
+      time, usefulnum, userurl, 
+      commenturl, isbn, userno
+      )
+    values (#{id,jdbcType=INTEGER}, #{bookno,jdbcType=VARCHAR}, #{bookname,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{rating,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{time,jdbcType=DATE}, #{usefulnum,jdbcType=INTEGER}, #{userurl,jdbcType=VARCHAR}, 
+      #{commenturl,jdbcType=VARCHAR}, #{isbn,jdbcType=VARCHAR}, #{userno,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.ncut.doubanWebSpider.model.BookComment" >
+    insert into tb_bookcomment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bookno != null" >
+        bookno,
+      </if>
+      <if test="bookname != null" >
+        bookname,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="rating != null" >
+        rating,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="usefulnum != null" >
+        usefulnum,
+      </if>
+      <if test="userurl != null" >
+        userurl,
+      </if>
+      <if test="commenturl != null" >
+        commenturl,
+      </if>
+      <if test="isbn != null" >
+        isbn,
+      </if>
+      <if test="userno != null" >
+        userno,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bookno != null" >
+        #{bookno,jdbcType=VARCHAR},
+      </if>
+      <if test="bookname != null" >
+        #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="rating != null" >
+        #{rating,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=DATE},
+      </if>
+      <if test="usefulnum != null" >
+        #{usefulnum,jdbcType=INTEGER},
+      </if>
+      <if test="userurl != null" >
+        #{userurl,jdbcType=VARCHAR},
+      </if>
+      <if test="commenturl != null" >
+        #{commenturl,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null" >
+        #{userno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.ncut.doubanWebSpider.model.BookComment" >
+    update tb_bookcomment
+    <set >
+      <if test="bookno != null" >
+        bookno = #{bookno,jdbcType=VARCHAR},
+      </if>
+      <if test="bookname != null" >
+        bookname = #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="rating != null" >
+        rating = #{rating,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=DATE},
+      </if>
+      <if test="usefulnum != null" >
+        usefulnum = #{usefulnum,jdbcType=INTEGER},
+      </if>
+      <if test="userurl != null" >
+        userurl = #{userurl,jdbcType=VARCHAR},
+      </if>
+      <if test="commenturl != null" >
+        commenturl = #{commenturl,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null" >
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null" >
+        userno = #{userno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.ncut.doubanWebSpider.model.BookComment" >
+    update tb_bookcomment
+    set bookno = #{bookno,jdbcType=VARCHAR},
+      bookname = #{bookname,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      rating = #{rating,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      time = #{time,jdbcType=DATE},
+      usefulnum = #{usefulnum,jdbcType=INTEGER},
+      userurl = #{userurl,jdbcType=VARCHAR},
+      commenturl = #{commenturl,jdbcType=VARCHAR},
+      isbn = #{isbn,jdbcType=VARCHAR},
+      userno = #{userno,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
