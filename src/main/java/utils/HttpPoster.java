@@ -52,4 +52,30 @@ public class HttpPoster
 		}
 		return responseContent;
 	}
+	public static String sendPost(String url)
+	{
+		String responseContent = "";
+		try
+		{
+			DefaultHttpClient client = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost( url); // 创建HttpPost
+			HttpResponse response = null;
+			response = client.execute( httpPost); // 执行POST请求
+			HttpEntity entity = response.getEntity(); // 获取响应实体
+			if ( null != entity)
+			{
+				responseContent = EntityUtils. toString(entity, "ISO8859-1");
+				EntityUtils. consume(entity); // Consume response content
+			}
+			client. getConnectionManager(). shutdown();
+		} catch (ConnectException c)
+		{
+			responseContent = "主机无法请求到地址：" + url ;
+		} catch (Exception e)
+		{
+			responseContent = "NoSendSucceed " + e.getMessage();
+			e.printStackTrace();
+		}
+		return responseContent;
+	}
 }
