@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.ncut.doubanWebSpider.dao.SimpleBookInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="translator" property="translator" jdbcType="VARCHAR" />
+    <result column="press" property="press" jdbcType="VARCHAR" />
+    <result column="publishtime" property="publishtime" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="ratingnum" property="ratgingnum" jdbcType="INTEGER" />
+    <result column="rating" property="rating" jdbcType="DOUBLE" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, author, translator, press, publishtime, price, rating, url, tag, img
+  </sql>
+    <resultMap id="BaseInfoForStatic" type="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo" extends="BaseResultMap">
+		<result column="itemResultAmount" property="itemResultAmount" jdbcType="INTEGER" />
+		<result column="selectLimitAmount" property="selectLimitAmount" jdbcType="INTEGER" />	
+	</resultMap>
+	<!-- 根据标签对图书数量进行统计 -->
+	<select id="getBookNumByTagStatic" resultMap="BaseInfoForStatic">
+		select
+		tag,count(tag) as itemResultAmount from tb_simplebookinfo
+		group by
+		tag order by itemResultAmount desc limit #{selectLimitAmount}
+	</select>
+	<!-- 根据图书评分排序 -->
+	<select id="getBookRatingSort" resultMap="BaseResultMap">
+		select
+		 <include refid="Base_Column_List" />
+		 from tb_simplebookinfo
+		order by rating desc limit #{selectLimitAmount}
+	</select>
+	<!-- 根据书名查询图书 -->
+	<select id="selectByName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_simplebookinfo
+		where lower(title) like #{title}
+		order by rating desc
+	</select>
+	<!--查询图书编号和名称-->
+	<select id="selectAllNames" resultMap="BaseResultMap">
+		select title,url,tag
+		from tb_simplebookinfo
+	</select>
+	<!--根据url组查询图书-->
+	<select id="selectAllByUrl" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from tb_simplebookinfo t
+		where t.url in
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- 根据Url查询图书 -->
+	<select id="selectByUrl" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from tb_simplebookinfo t
+		where t.url = #{item}
+	</select>
+  <!-- 根据标签查询图书信息 -->
+<!--   <select id="selectByTagName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_simplebookinfo
+    where tag in 
+    <foreach item="tag" index="index" collection="array" open="(" separator="," close=")">
+    #{tag}
+    </foreach>  
+  </select>
+  获取全部图书
+    <select id="selectAll" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_simplebookinfo
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_simplebookinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_simplebookinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo" >
+    insert into tb_simplebookinfo (id, title, author, 
+      translator, press, publishtime, 
+      price, rating, url, 
+      tag, img)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{translator,jdbcType=VARCHAR}, #{press,jdbcType=VARCHAR}, #{publishtime,jdbcType=VARCHAR}, 
+      #{price,jdbcType=VARCHAR}, #{rating,jdbcType=DOUBLE}, #{url,jdbcType=VARCHAR}, 
+      #{tag,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo" >
+    insert into tb_simplebookinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="translator != null" >
+        translator,
+      </if>
+      <if test="press != null" >
+        press,
+      </if>
+      <if test="publishtime != null" >
+        publishtime,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="rating != null" >
+        rating,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="translator != null" >
+        #{translator,jdbcType=VARCHAR},
+      </if>
+      <if test="press != null" >
+        #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="publishtime != null" >
+        #{publishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="rating != null" >
+        #{rating,jdbcType=DOUBLE},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo" >
+    update tb_simplebookinfo
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="translator != null" >
+        translator = #{translator,jdbcType=VARCHAR},
+      </if>
+      <if test="press != null" >
+        press = #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="publishtime != null" >
+        publishtime = #{publishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="rating != null" >
+        rating = #{rating,jdbcType=DOUBLE},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo" >
+    update tb_simplebookinfo
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      translator = #{translator,jdbcType=VARCHAR},
+      press = #{press,jdbcType=VARCHAR},
+      publishtime = #{publishtime,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      rating = #{rating,jdbcType=DOUBLE},
+      url = #{url,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update> -->
+</mapper>
