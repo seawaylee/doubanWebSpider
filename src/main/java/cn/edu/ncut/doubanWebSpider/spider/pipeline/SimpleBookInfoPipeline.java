@@ -9,11 +9,13 @@ import cn.edu.ncut.doubanWebSpider.dao.SimpleBookInfoMapper;
 import cn.edu.ncut.doubanWebSpider.model.BookComment;
 import cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo;
 import cn.edu.ncut.doubanWebSpider.spider.schedule.QueueNameConstant;
+import org.springframework.transaction.annotation.Transactional;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 import utils.RedisUtil;
 @Component
+@Transactional
 public class SimpleBookInfoPipeline implements Pipeline
 {
 	@Autowired
@@ -26,6 +28,8 @@ public class SimpleBookInfoPipeline implements Pipeline
 			try
 			{
 				SimpleBookInfo sbi = (SimpleBookInfo) entry.getValue();
+				if (simpleBookInfoMapper.selectByUrl(sbi.getUrl()).size() > 0)
+					return ;
 				simpleBookInfoMapper.insert(sbi);
 			}
 			catch(Exception e)

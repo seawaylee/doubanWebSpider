@@ -17,35 +17,24 @@ public class BookTagProcessor implements PageProcessor
 			.setUserAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2471.2 Safari/537.36")
 			.addCookie("Cookie", COOKIE);
 	public Site getSite()
-	{
+	{//
 		return site;
 	}
 
 	public void process(Page page)
 	{
 		
-		//Xpath表达式
-		String tagCategoryXpath = "//div/div/a[@class='tag-title-wrapper']/@name";
-		String tagUrlXpath = "//a[@class='tag']/@href";
-		String tagNameXpath = "//a[@class='tag']/text()";
-		String tableXpath = "//table[@class='tagCol']";
 		//通过Xpath得到需要的属性
-		List<String> tagNames = page.getHtml().xpath(tagNameXpath).all();
-		List<String> tagUrls =  page.getHtml().xpath(tagUrlXpath).all();
-		List<String> tagCategory = page.getHtml().xpath(tagCategoryXpath).all();
-		List<String> tables = page.getHtml().xpath(tableXpath).all();//看看有多少个种类
+		List<String> tagCategory = page.getHtml().css("a.tag-title-wrapper").all();
+		List<String> tagUrls =  page.getHtml().css("table.tagCol").links().all();
+		List<String> tagNames = page.getHtml().xpath("//table[@class='tagCol']//td//a//text()").all();
 		int count = 0;
-		for(int c = 0; c < tables.size(); c++)
+		for(int c = 0; c < tagNames.size(); c++)
 		{
-			int tagsNum = tables.get(c).split("<td>").length - 1;
-			for(int i=0; i<tagsNum;i++)
-			{
-				BookTag bookTag = new BookTag();
-				bookTag.setTagname(tagNames.get(count));
-				bookTag.setUrl(tagUrls.get(count).replaceAll("\\?focus=", ""));
-				bookTag.setCategory(tagCategory.get(c));
-				page.putField("bookTag"+count++, bookTag);
-			}
+			BookTag bookTag = new BookTag();
+			bookTag.setTagname(tagNames.get(c));
+			bookTag.setUrl(tagUrls.get(count));
+			page.putField("bookTag"+count++, bookTag);
 		}
 	}
 }

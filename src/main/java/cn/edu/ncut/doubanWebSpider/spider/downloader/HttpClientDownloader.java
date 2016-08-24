@@ -110,7 +110,7 @@ public class HttpClientDownloader extends us.codecraft.webmagic.downloader.Abstr
         } catch (IOException e) {
             logger.warn("download page " + request.getUrl() + " error", e);
             if (site.getCycleRetryTimes() > 0) {
-            	System.out.println("重新加入队列:" + request.getUrl());
+            	System.out.println("剩余:" + site.getCycleRetryTimes() + "次,重新加入队列:" + request.getUrl());
                 return addToCycleRetry(request, site);
             }
             onError(request);

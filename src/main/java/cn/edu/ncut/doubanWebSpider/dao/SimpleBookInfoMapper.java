@@ -12,6 +12,7 @@ public interface SimpleBookInfoMapper extends Mapper<SimpleBookInfo>
 	List<SimpleBookInfo> selectByName(String title);
 	List<SimpleBookInfo> selectAllNames();
 	List<SimpleBookInfo> selectAllByUrl(List<String> urls);
+	List<SimpleBookInfo> selectByUrl(String url);
 //    int deleteByPrimaryKey(Integer id);
 //
 //    int insert(SimpleBookInfo record);

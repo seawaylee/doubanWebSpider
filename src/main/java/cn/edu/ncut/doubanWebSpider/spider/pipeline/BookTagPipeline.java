@@ -7,10 +7,12 @@ import org.springframework.stereotype.Component;
 
 import cn.edu.ncut.doubanWebSpider.dao.BookTagMapper;
 import cn.edu.ncut.doubanWebSpider.model.BookTag;
+import org.springframework.transaction.annotation.Transactional;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 @Component("BookTagPipeline")
+@Transactional
 public class BookTagPipeline implements Pipeline
 {
 	@Autowired

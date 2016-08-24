@@ -2,7 +2,7 @@ package cn.edu.ncut.doubanWebSpider.model;
 
 import javax.persistence.Table;
 
-@Table(name = "tb_tag")
+@Table(name = "tb_booktag")
 public class BookTag {
     private Integer id;
 

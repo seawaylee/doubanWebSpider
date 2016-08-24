@@ -31,14 +31,14 @@ public class SimpleBookInfoSpider implements Crawler
 		int i = 0;
 		for(BookTag tag : bookTag)
 		{
-			requests[i++] = new Request(tag.getUrl()).setPriority(0).putExtra("RedisSuffix","www.douban.com");
+			requests[i++] = new Request(tag.getUrl() + "?start=0&Type=T").setPriority(0).putExtra("RedisSuffix","www.douban.com");
 		}
 		Spider.create(new SimpleBookInfoProcessor())
 		.addRequest(requests)
-//		.addUrl("http://www.douban.com/tag/港台/book?start=480")
+		//.addUrl("https://book.douban.com/tag/余华?start=0&type=T")
 		.addPipeline(simpleBookInfoPipeline)
 		.setDownloader(new HttpClientDownloader())
-		.scheduler(new RedisScheduler(pool,2,QueueNameConstant.QUEUE_SIMPLE_BOOK_INFO))
+		//.scheduler(new RedisScheduler(pool,0,QueueNameConstant.QUEUE_SIMPLE_BOOK_INFO))
 		.thread(1).run();
 	}
 	public static void main(String[] args)

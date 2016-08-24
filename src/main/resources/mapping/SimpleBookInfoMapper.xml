@@ -9,6 +9,7 @@
     <result column="press" property="press" jdbcType="VARCHAR" />
     <result column="publishtime" property="publishtime" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="ratingnum" property="ratgingnum" jdbcType="INTEGER" />
     <result column="rating" property="rating" jdbcType="DOUBLE" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="tag" property="tag" jdbcType="VARCHAR" />
@@ -57,6 +58,13 @@
 		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
 			#{item}
 		</foreach>
+	</select>
+	<!-- 根据Url查询图书 -->
+	<select id="selectByUrl" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from tb_simplebookinfo t
+		where t.url = #{item}
 	</select>
   <!-- 根据标签查询图书信息 -->
 <!--   <select id="selectByTagName" resultMap="BaseResultMap" >

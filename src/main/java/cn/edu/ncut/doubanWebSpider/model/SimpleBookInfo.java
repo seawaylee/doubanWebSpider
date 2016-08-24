@@ -1,6 +1,7 @@
 package cn.edu.ncut.doubanWebSpider.model;
 
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "tb_simplebookinfo")
 public class SimpleBookInfo {
@@ -20,6 +21,8 @@ public class SimpleBookInfo {
 
     private Double rating;
 
+    private Integer ratingnum;
+
     private String url;
 
     private String tag;
@@ -29,12 +32,13 @@ public class SimpleBookInfo {
     /**
      * limit  查询参数
      */
-    
+    @Transient
     private Integer selectLimitAmount;
 
     /**
      * 查询结果数量
      */
+    @Transient
     private Integer itemResultAmount;
     
     
@@ -147,7 +151,15 @@ public class SimpleBookInfo {
         this.img = img == null ? null : img.trim();
     }
 
-	@Override
+    public Integer getRatingnum() {
+        return ratingnum;
+    }
+
+    public void setRatingnum(Integer ratingnum) {
+        this.ratingnum = ratingnum;
+    }
+
+    @Override
 	public String toString()
 	{
 		return "书名:" + title + "</br>"
@@ -156,9 +168,10 @@ public class SimpleBookInfo {
 				+ "出版时间:" + publishtime+ "</br>"
 				+ "价格:" + price+ "</br>"
 				+ "评分:" + rating+ "</br>"
+				+ "评分人数:" + ratingnum+ "</br>"
 				+ "地址:" + url+ "</br>"
 				+ "标签:" + tag+ "</br>"
 				+ "<br><br>";
 	}
-    
+
 }
