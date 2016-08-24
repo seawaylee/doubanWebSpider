@@ -41,7 +41,7 @@ public class BookCommentProcessor implements PageProcessor
 
 	public void process(Page page)
 	{
- 		if(page.getUrl().regex("http://book.douban.com/subject/\\S+/comments/*").match())
+ 		if(page.getUrl().regex("http(s)?://book.douban.com/subject/\\S+/comments/*").match())
 		{
  			try
  			{
@@ -104,7 +104,7 @@ public class BookCommentProcessor implements PageProcessor
 					BookComment comment = new BookComment();
 					comment.setBookno(bookno);
 					comment.setBookname(bookName);
-					comment.setUsername(userNames.get(i));
+					comment.setUsername(removeFourChar(userNames.get(i)));
 					comment.setRating(getRatingByString(ratings2.get(i)));
 					comment.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(commentTime.get(i)));
 					comment.setContent(contents.get(i));
@@ -150,5 +150,24 @@ public class BookCommentProcessor implements PageProcessor
 			return 2;
 		return 1;
 	}
-	
+	/**
+	 * 替换四个字节的字符 '\xF0\x9F\x98\x84\xF0\x9F）的解决方案 😁
+	 * @author ChenGuiYong
+	 * @data 2015年8月11日 上午10:31:50
+	 * @param content
+	 * @return
+	 */
+	public static String removeFourChar(String content) {
+		byte[] conbyte = content.getBytes();
+		for (int i = 0; i < conbyte.length; i++) {
+			if ((conbyte[i] & 0xF8) == 0xF0) {
+				for (int j = 0; j < 4; j++) {
+					conbyte[i+j]=0x30;
+				}
+				i += 3;
+			}
+		}
+		content = new String(conbyte);
+		return content.replaceAll("0000", "");
+	}
 }

@@ -23,7 +23,7 @@ public class BookCommentSpider implements Crawler
 	private BookCommentPipeline bookCommentPipeline;
 	public void crawl()
 	{
-		RedisUtil.init();
+		//RedisUtil.init();
 //		List<SimpleBookInfo> bookInfos = simpleBookMapper.selectByTagName(new String[]{
 //				"经济","成长","文化",""小说","商业","社会","中国文学","经典","编程",
 //				"鲁迅"
@@ -33,14 +33,15 @@ public class BookCommentSpider implements Crawler
 		int i = 0;
 		for(SimpleBookInfo book : bookInfos)
 		{
-			urls[i++] = book.getUrl().replace("/?from=tag_all", "/comments/hot?p=10");
+			urls[i++] = book.getUrl() + "/comments/hot?p=1";
 		}
 		
 		Spider.create(new BookCommentProcessor())
-		.addUrl(urls)
+		//.addUrl(urls)
+		.addUrl("https://book.douban.com/subject/2567698/comments/hot?p=18")
 		.addPipeline(bookCommentPipeline)
-		.scheduler(new RedisScheduler(pool,0,QueueNameConstant.QUEUE_BOOK_COMMNENT))
-		.thread(2).run();
+		//.scheduler(new RedisScheduler(pool,0,QueueNameConstant.QUEUE_BOOK_COMMNENT))
+		.thread(1).run();
 	}
 	public static void main(String[] args)
 	{
