@@ -1,13 +1,13 @@
 package cn.edu.ncut.doubanWebSpider.spider.process;
 
-import java.util.List;
-import java.util.Random;
-
 import cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
+
+import java.util.List;
+import java.util.Random;
 
 public class SimpleBookInfoProcessor implements PageProcessor
 {
@@ -24,7 +24,7 @@ public class SimpleBookInfoProcessor implements PageProcessor
             .setUserAgent(AGENTS[new Random().nextInt(5)])
             .setSleepTime(0)
             .setRetryTimes(3)
-            .setCycleRetryTimes(5)
+            .setCycleRetryTimes(100)
             .addCookie("Cookie", COOKIE);
 
     public Site getSite()
@@ -85,8 +85,14 @@ public class SimpleBookInfoProcessor implements PageProcessor
                 sbi.setImg(bookImgs.get(i));
                 if (bookRatings.get(i) != null)
                     sbi.setRating(Double.parseDouble(bookRatings.get(i)));
+                else
+                    sbi.setRating(0.0);
+
                 if (ratingNums.get(i) != null)
-                    sbi.setRatingnum(Integer.valueOf(ratingNums.get(i).substring(2, ratingNums.get(i).length() - 5)));
+                {
+                    String value = ratingNums.get(i).substring(2, ratingNums.get(i).length() - 5).replaceAll("少于","").replaceAll("目前无","0");
+                    sbi.setRatingnum(Integer.valueOf(value));
+                }
                 sbi.setTag(page.getUrl().toString().split("/")[4].split("\\?")[0]);
                 // 抽取替他信息
                 String[] otherInfo = otherInfos.get(i).split("/");

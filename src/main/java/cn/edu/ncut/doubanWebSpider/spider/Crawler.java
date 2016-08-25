@@ -2,10 +2,7 @@ package cn.edu.ncut.doubanWebSpider.spider;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-import utils.ConfigUtil;
 import utils.RedisUtil;
 
 public interface Crawler 

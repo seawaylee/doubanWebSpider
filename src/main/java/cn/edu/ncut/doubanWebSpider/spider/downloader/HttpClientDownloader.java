@@ -1,11 +1,6 @@
 package cn.edu.ncut.doubanWebSpider.spider.downloader;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.collect.Sets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpHost;
@@ -25,9 +20,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Sets;
-
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -35,7 +27,12 @@ import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.selector.PlainText;
 import us.codecraft.webmagic.utils.HttpConstant;
 import us.codecraft.webmagic.utils.UrlUtils;
-import utils.RedisUtil;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -110,7 +107,8 @@ public class HttpClientDownloader extends us.codecraft.webmagic.downloader.Abstr
         } catch (IOException e) {
             logger.warn("download page " + request.getUrl() + " error", e);
             if (site.getCycleRetryTimes() > 0) {
-            	System.out.println("剩余:" + site.getCycleRetryTimes() + "次,重新加入队列:" + request.getUrl());
+                int hasTried = request.getExtra("_cycle_tried_times") == null?0: (int) request.getExtra("_cycle_tried_times");
+            	System.out.println("剩余:" + (site.getCycleRetryTimes() - hasTried) + "次,重新加入队列:" + request.getUrl());
                 return addToCycleRetry(request, site);
             }
             onError(request);

@@ -280,7 +280,7 @@
 
 	<profiles>
 		<profile>
-			<id>bookinfo</id>
+			<id>simplebookinfo</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -294,7 +294,7 @@
 									<goal>java</goal>
 								</goals>
 								<configuration>
-									<mainClass>cn.edu.ncut.doubanWebSpider.spider.BookInfoSpider</mainClass>
+									<mainClass>cn.edu.ncut.doubanWebSpider.spider.SimpleBookInfoSpider</mainClass>
 								</configuration>
 							</execution>
 						</executions>

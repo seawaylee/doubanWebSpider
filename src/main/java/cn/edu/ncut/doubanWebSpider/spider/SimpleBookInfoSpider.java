@@ -1,11 +1,5 @@
 package cn.edu.ncut.doubanWebSpider.spider;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import cn.edu.ncut.doubanWebSpider.dao.BookTagMapper;
 import cn.edu.ncut.doubanWebSpider.model.BookTag;
 import cn.edu.ncut.doubanWebSpider.spider.downloader.HttpClientDownloader;
@@ -13,9 +7,12 @@ import cn.edu.ncut.doubanWebSpider.spider.pipeline.SimpleBookInfoPipeline;
 import cn.edu.ncut.doubanWebSpider.spider.process.SimpleBookInfoProcessor;
 import cn.edu.ncut.doubanWebSpider.spider.schedule.QueueNameConstant;
 import cn.edu.ncut.doubanWebSpider.spider.schedule.RedisScheduler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
-import utils.RedisUtil;
+
+import java.util.List;
 @Component
 public class SimpleBookInfoSpider implements Crawler
 {
@@ -25,7 +22,7 @@ public class SimpleBookInfoSpider implements Crawler
 	private SimpleBookInfoPipeline simpleBookInfoPipeline;
 	public void crawl()
 	{
-		RedisUtil.init();
+		//RedisUtil.init();
 		List<BookTag> bookTag = bookTagMapper.selectAll();
 		Request[] requests = new Request[bookTag.size()];
 		int i = 0;
@@ -35,10 +32,10 @@ public class SimpleBookInfoSpider implements Crawler
 		}
 		Spider.create(new SimpleBookInfoProcessor())
 		.addRequest(requests)
-		//.addUrl("https://book.douban.com/tag/余华?start=0&type=T")
+		//.addUrl("http://book.douban.com/tag/古龙?start=0&Type=T")
 		.addPipeline(simpleBookInfoPipeline)
 		.setDownloader(new HttpClientDownloader())
-		//.scheduler(new RedisScheduler(pool,0,QueueNameConstant.QUEUE_SIMPLE_BOOK_INFO))
+		.scheduler(new RedisScheduler(pool,0, QueueNameConstant.QUEUE_SIMPLE_BOOK_INFO))
 		.thread(1).run();
 	}
 	public static void main(String[] args)

@@ -1,19 +1,17 @@
 package cn.edu.ncut.doubanWebSpider.spider;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import cn.edu.ncut.doubanWebSpider.dao.SimpleBookInfoMapper;
 import cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo;
 import cn.edu.ncut.doubanWebSpider.spider.pipeline.BookCommentPipeline;
 import cn.edu.ncut.doubanWebSpider.spider.process.BookCommentProcessor;
 import cn.edu.ncut.doubanWebSpider.spider.schedule.QueueNameConstant;
 import cn.edu.ncut.doubanWebSpider.spider.schedule.RedisScheduler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
 import us.codecraft.webmagic.Spider;
-import utils.RedisUtil;
+
+import java.util.List;
 @Component
 public class BookCommentSpider implements Crawler
 {
@@ -37,10 +35,10 @@ public class BookCommentSpider implements Crawler
 		}
 		
 		Spider.create(new BookCommentProcessor())
-		//.addUrl(urls)
-		.addUrl("https://book.douban.com/subject/2567698/comments/hot?p=18")
+		.addUrl(urls)
+		//.addUrl("https://book.douban.com/subject/2567698/comments/hot?p=18")
 		.addPipeline(bookCommentPipeline)
-		//.scheduler(new RedisScheduler(pool,0,QueueNameConstant.QUEUE_BOOK_COMMNENT))
+		.scheduler(new RedisScheduler(pool,0, QueueNameConstant.QUEUE_BOOK_COMMNENT))
 		.thread(1).run();
 	}
 	public static void main(String[] args)
