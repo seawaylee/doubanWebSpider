@@ -8,11 +8,13 @@ import org.springframework.stereotype.Component;
 import cn.edu.ncut.doubanWebSpider.dao.BookCommentMapper;
 import cn.edu.ncut.doubanWebSpider.model.BookComment;
 import cn.edu.ncut.doubanWebSpider.spider.schedule.QueueNameConstant;
+import org.springframework.transaction.annotation.Transactional;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 import utils.RedisUtil;
 @Component
+@Transactional
 public class BookCommentPipeline implements Pipeline
 {
 	@Autowired

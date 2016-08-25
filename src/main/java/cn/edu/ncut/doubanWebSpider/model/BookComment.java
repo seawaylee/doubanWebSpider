@@ -3,6 +3,8 @@ package cn.edu.ncut.doubanWebSpider.model;
 import java.util.Date;
 
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 @Table(name = "tb_bookcomment")
 public class BookComment {
     private Integer id;
@@ -32,12 +34,13 @@ public class BookComment {
     /**
      * limit  查询参数
      */
-    
+    @Transient
     private Integer selectLimitAmount;
 
     /**
      * 查询结果数量
      */
+    @Transient
     private Integer itemResultAmount;
     
     
