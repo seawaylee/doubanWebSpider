@@ -28,7 +28,7 @@ public class SimpleBookInfoSpider implements Crawler
 		int i = 0;
 		for(BookTag tag : bookTag)
 		{
-			requests[i++] = new Request(tag.getUrl() + "?start=0&Type=T").setPriority(0).putExtra("RedisSuffix","www.douban.com");
+			requests[i++] = new Request(tag.getUrl() + "?start=0&Type=S").setPriority(0).putExtra("RedisSuffix","www.douban.com");
 		}
 		Spider.create(new SimpleBookInfoProcessor())
 		.addRequest(requests)

@@ -7,6 +7,8 @@ import javax.persistence.Transient;
 public class SimpleBookInfo {
     private Integer id;
 
+    private String bookno;
+
     private String title;
 
     private String author;
@@ -157,6 +159,16 @@ public class SimpleBookInfo {
 
     public void setRatingnum(Integer ratingnum) {
         this.ratingnum = ratingnum;
+    }
+
+    public String getBookno()
+    {
+        return bookno;
+    }
+
+    public void setBookno(String bookno)
+    {
+        this.bookno = bookno;
     }
 
     @Override

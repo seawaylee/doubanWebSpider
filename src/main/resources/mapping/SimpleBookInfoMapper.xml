@@ -3,6 +3,7 @@
 <mapper namespace="cn.edu.ncut.doubanWebSpider.dao.SimpleBookInfoMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bookno" property="bookno" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="author" property="author" jdbcType="VARCHAR" />
     <result column="translator" property="translator" jdbcType="VARCHAR" />
@@ -16,7 +17,7 @@
     <result column="img" property="img" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, author, translator, press, publishtime, price, rating, url, tag, img
+    id, bookno, title, author, translator, press, publishtime, price, rating, url, tag, img
   </sql>
     <resultMap id="BaseInfoForStatic" type="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo" extends="BaseResultMap">
 		<result column="itemResultAmount" property="itemResultAmount" jdbcType="INTEGER" />
@@ -66,6 +67,18 @@
 		from tb_simplebookinfo t
 		where t.url = #{item}
 	</select>
+	<!-- 获取所有图示地址，按标签排序 -->
+	<select id="selectAllUrls" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from tb_simplebookinfo t
+		order by t.tag desc
+	</select>
+	<!-- 更新bookno -->
+	<update id="update" parameterType="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo">
+		update tb_simplebookinfo t
+		set t.bookno = #{bookno} where id = #{id}
+	</update>
   <!-- 根据标签查询图书信息 -->
 <!--   <select id="selectByTagName" resultMap="BaseResultMap" >
     select 

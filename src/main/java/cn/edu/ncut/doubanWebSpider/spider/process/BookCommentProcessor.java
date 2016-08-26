@@ -1,19 +1,15 @@
 package cn.edu.ncut.doubanWebSpider.spider.process;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import org.apache.http.HttpHost;
-
 import cn.edu.ncut.doubanWebSpider.model.BookComment;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
-import utils.ConfigUtil;
-import utils.RedisUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class BookCommentProcessor implements PageProcessor
@@ -31,7 +27,7 @@ public class BookCommentProcessor implements PageProcessor
 			.setUserAgent(AGENTS[new Random().nextInt(5)])
 			.setSleepTime(0)
 			.setRetryTimes(3)
-			.setCycleRetryTimes(5)
+			.setCycleRetryTimes(1000)
 			.addCookie("Cookie", COOKIE);
 
 	public Site getSite()

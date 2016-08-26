@@ -1,26 +1,26 @@
 package cn.edu.ncut.doubanWebSpider.ml;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Component;
-
 import cn.edu.ncut.doubanWebSpider.dao.BookCommentMapper;
 import cn.edu.ncut.doubanWebSpider.dao.SimpleBookInfoMapper;
 import cn.edu.ncut.doubanWebSpider.model.BookComment;
 import cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import utils.FileUtils;
 
+import java.util.List;
+
 @Component
+@Transactional
 public class TransData
 {
 	@Autowired
 	private BookCommentMapper commentDao;
 	@Autowired
 	private SimpleBookInfoMapper bookDao;
-
 //	public void doTransComment(String destFilePath)
 //	{
 //		List<BookComment> commentList = commentDao.selectAll();
@@ -126,11 +126,24 @@ public class TransData
 //		System.out.println("成功转换 " + rowCount + "  条评论");
 //	}
 
+	public void addBookno()
+	{
+		List<SimpleBookInfo> books = bookDao.selectAll();
+		int count = 1;
+		for (SimpleBookInfo book : books)
+		{
+			String url = book.getUrl();
+			String bookno = url.split("/")[4];
+			book.setBookno(bookno);
+			bookDao.update(book);
+			System.out.println("已成功转换" + (count++ + "/" + books.size()));
+		}
+	}
+
 	public static void main(String[] args)
 	{
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:ssm/spring-*.xml");
-		applicationContext.getBean(TransData.class).doTransCommentHasRating(
-				"/Users/lixiwei-mac/Documents/DataSet/doubanReading/rating/UserRating.txt");
+		applicationContext.getBean(TransData.class).addBookno();
 //		applicationContext.getBean(TransData.class).doTransCommentNoRating(
 //				"/Users/lixiwei-mac/Documents/DataSet/doubanReading/rating/UserComment.txt");
 //		applicationContext.getBean(TransData.class).doTransBookNoWithName(
