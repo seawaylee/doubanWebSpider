@@ -10,8 +10,11 @@ import cn.edu.ncut.doubanWebSpider.spider.schedule.RedisScheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
+import utils.RedisUtil;
 
 import java.util.List;
+
 @Component
 public class BookCommentSpider implements Crawler
 {
@@ -22,25 +25,22 @@ public class BookCommentSpider implements Crawler
 	public void crawl()
 	{
 		//RedisUtil.init();
-//		List<SimpleBookInfo> bookInfos = simpleBookMapper.selectByTagName(new String[]{
-//				"经济","成长","文化",""小说","商业","社会","中国文学","经典","编程",
-//				"鲁迅"
-//		});
 		List<SimpleBookInfo> bookInfos = simpleBookMapper.selectAllUrls();
 		String[] urls = new String[bookInfos.size()];
 		int i = 0;
 		for(SimpleBookInfo book : bookInfos)
 		{
-			urls[i++] = book.getUrl() + "comments/hot?p=1";
+			urls[i++] = book.getUrl() + "comments/new?p=1";
 		}
-		
+		System.out.println("Total:" + urls.length);
 		Spider.create(new BookCommentProcessor())
 		.addUrl(urls)
-		//.addUrl("https://book.douban.com/subject/2567698/comments/hot?p=18")
+		//.addUrl("https://book.douban.com/subject/25862578/comments/new?p=30")
 		.addPipeline(bookCommentPipeline)
-		.scheduler(new RedisScheduler(pool,0, QueueNameConstant.QUEUE_BOOK_COMMNENT))
+		//.setScheduler(new FileCacheQueueScheduler("C:\\Users\\51195\\Desktop\\filePath.txt"))
+		//.scheduler(new RedisScheduler(pool,0, QueueNameConstant.QUEUE_BOOK_COMMNENT))
 		.setDownloader(new HttpClientDownloader())
-		.thread(1).run();
+		.thread(8).run();
 	}
 	public static void main(String[] args)
 	{

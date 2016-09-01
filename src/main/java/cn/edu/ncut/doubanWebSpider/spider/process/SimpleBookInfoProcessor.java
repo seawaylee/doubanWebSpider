@@ -11,8 +11,8 @@ import java.util.Random;
 
 public class SimpleBookInfoProcessor implements PageProcessor
 {
-    public static final String COOKIE = "bid=\"Nu4sBFrYFrQ\"; gr_user_id=90e8f0bd-c992-49e9-b769-67b7c813c60c; ll=\"108288\"; viewed=\"26414020_10750155_24703171\"; ps=y; dbcl2=\"142128977:lKgaClsIDDI\"; ct=y; ck=\"uNFe\"; ap=1; gr_session_id_22c937bbd8ebd703f2d8e9445f7dfd03=50785b47-22b1-44e3-b7a3-fd135a23cd6e; __utmt=1; push_noty_num=0; push_doumail_num=1; __utma=30149280.679528336.1449906405.1456155378.1456157975.15; __utmb=30149280.15.10.1456157975; __utmc=30149280; __utmz=30149280.1456157975.15.11.utmcsr=douban.com|utmccn=(referral)|utmcmd=referral|utmcct=/tag/%E5%B0%8F%E8%AF%B4/book; __utmv=30149280.14212";
-    //	public static final String COOKIE = "bid=\"cLFu0ljxKRE\"; gr_user_id=71a8fed9-c730-4e6b-815f-813f99b450f4; ll=\"108288\"; ap=1; viewed=\"3283973_5257905\"; __utmt=1; dbcl2=\"142128977:lKgaClsIDDI\"; ck=\"uNFe\"; gr_session_id_22c937bbd8ebd703f2d8e9445f7dfd03=c78404b1-2e3a-4bb6-afd9-45e6cfdc0d41; __utmt_douban=1; __utma=30149280.1220747617.1453995829.1455611943.1456219113.6; __utmb=30149280.4.10.1456219113; __utmc=30149280; __utmz=30149280.1456219113.6.5.utmcsr=baidu|utmccn=(organic)|utmcmd=organic; __utmv=30149280.14212; push_noty_num=0; push_doumail_num=1";
+    //public static final String COOKIE = "bid=\"Nu4sBFrYFrQ\"; gr_user_id=90e8f0bd-c992-49e9-b769-67b7c813c60c; ll=\"108288\"; viewed=\"26414020_10750155_24703171\"; ps=y; dbcl2=\"142128977:lKgaClsIDDI\"; ct=y; ck=\"uNFe\"; ap=1; gr_session_id_22c937bbd8ebd703f2d8e9445f7dfd03=50785b47-22b1-44e3-b7a3-fd135a23cd6e; __utmt=1; push_noty_num=0; push_doumail_num=1; __utma=30149280.679528336.1449906405.1456155378.1456157975.15; __utmb=30149280.15.10.1456157975; __utmc=30149280; __utmz=30149280.1456157975.15.11.utmcsr=douban.com|utmccn=(referral)|utmcmd=referral|utmcct=/tag/%E5%B0%8F%E8%AF%B4/book; __utmv=30149280.14212";
+    public static final String COOKIE = "gr_user_id=f7ce0ee0-4ede-45c8-bca0-890ce7ff2886; bid=\"UlkkzTCvehw\"; ps=y; ll=\"108288\"; viewed=\"4736167_1440226_2020442_3897837_3821157_3590768_2297549_2130190_26414020\"; regfromurl=http://www.douban.com/people/i_m_huangz/; regfromtitle=%E9%BB%84%E5%81%A5%E5%AE%8F; dbcl2=\"142128977:lKgaClsIDDI\"; ck=\"uNFe\"; ap=1; __utmt=1; push_noty_num=0; push_doumail_num=1; __utmt_douban=1; __utma=30149280.699562146.1456221095.1457420579.1457434590.29; __utmb=30149280.3.10.1457434590; __utmc=30149280; __utmz=30149280.1457324439.26.6.utmcsr=baidu|utmccn=(organic)|utmcmd=organic; __utmv=30149280.14212; __utma=81379588.483132861.1456221095.1457420579.1457434598.25; __utmb=81379588.1.10.1457434598; __utmc=81379588; __utmz=81379588.1457400869.23.2.utmcsr=douban.com|utmccn=(referral)|utmcmd=referral|utmcct=/misc/sorry; _pk_ref.100001.3ac3=%5B%22%22%2C%22%22%2C1457434598%2C%22http%3A%2F%2Fwww.douban.com%2Fmisc%2Fsorry%3Foriginal-url%3Dhttps%253A%252F%252Fbook.douban.com%252Ftag%252F%253Fview%253Dtype%2526icn%253Dindex-sorttags-all%22%5D; _pk_id.100001.3ac3=cb9226d49aa4d18e.1456220256.25.1457434598.1457420754.; _pk_ses.100001.3ac3=*";
     public static final String[] AGENTS = new String[]{
             "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2471.2 Safari/537.36",
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36",
@@ -37,7 +37,7 @@ public class SimpleBookInfoProcessor implements PageProcessor
         try
         {
             site.setUserAgent(AGENTS[new Random().nextInt(5)]);
-            Thread.sleep(new Random().nextInt(30) * 100);
+            Thread.sleep(new Random().nextInt(20) * 100);
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -82,6 +82,7 @@ public class SimpleBookInfoProcessor implements PageProcessor
                 SimpleBookInfo sbi = new SimpleBookInfo();
                 sbi.setTitle(bookNames.get(i));
                 sbi.setUrl(bookUrls.get(i));
+                sbi.setBookno(bookUrls.get(i).split("/")[4]);
                 sbi.setImg(bookImgs.get(i));
                 if (bookRatings.get(i) != null)
                     sbi.setRating(Double.parseDouble(bookRatings.get(i)));

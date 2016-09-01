@@ -35,7 +35,7 @@ public class SimpleBookInfoPipeline implements Pipeline
 			catch(Exception e)
 			{
 				System.out.println("插入简要图书数据异常:" + e.getCause() );
-				RedisUtil.push(QueueNameConstant.QUEUE_SIMPLE_BOOK_ERROR,resultItems.getRequest().getUrl());
+				//RedisUtil.push(QueueNameConstant.QUEUE_SIMPLE_BOOK_ERROR,resultItems.getRequest().getUrl());
 			}
 		}
 	}

@@ -17,15 +17,15 @@ public class UserInfo {
 
     private String introduction;
 
-    private Integer reading;
+    private String reading;
 
-    private Integer hasread;
+    private String hasread;
 
-    private Integer wantread;
+    private String wantread;
 
-    private Integer followees;
+    private String followees;
 
-    private Integer followers;
+    private String followers;
 
     public Integer getId() {
         return id;
@@ -83,43 +83,43 @@ public class UserInfo {
         this.introduction = introduction == null ? null : introduction.trim();
     }
 
-    public Integer getReading() {
+    public String getReading() {
         return reading;
     }
 
-    public void setReading(Integer reading) {
-        this.reading = reading;
+    public void setReading(String reading) {
+        this.reading = reading == null ? null : reading.trim();
     }
 
-    public Integer getHasread() {
+    public String getHasread() {
         return hasread;
     }
 
-    public void setHasread(Integer hasread) {
-        this.hasread = hasread;
+    public void setHasread(String hasread) {
+        this.hasread = hasread == null ? null : hasread.trim();
     }
 
-    public Integer getWantread() {
+    public String getWantread() {
         return wantread;
     }
 
-    public void setWantread(Integer wantread) {
-        this.wantread = wantread;
+    public void setWantread(String wantread) {
+        this.wantread = wantread == null ? null : wantread.trim();
     }
 
-    public Integer getFollowees() {
+    public String getFollowees() {
         return followees;
     }
 
-    public void setFollowees(Integer followees) {
-        this.followees = followees;
+    public void setFollowees(String followees) {
+        this.followees = followees == null ? null : followees.trim();
     }
 
-    public Integer getFollowers() {
+    public String getFollowers() {
         return followers;
     }
 
-    public void setFollowers(Integer followers) {
-        this.followers = followers;
+    public void setFollowers(String followers) {
+        this.followers = followers == null ? null : followers.trim();
     }
 }

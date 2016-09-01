@@ -1,5 +1,6 @@
 package cn.edu.ncut.doubanWebSpider.spider.pipeline;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,10 @@ public class BookTagPipeline implements Pipeline
 		{
 			for(Map.Entry<String, Object> entry : resultItems.getAll().entrySet())
 			{
-				BookTag bookTag = (BookTag) entry.getValue();
-				bookTagMapper.insert(bookTag);
+				BookTag tag = (BookTag) entry.getValue();
+				List<BookTag> bookTags = bookTagMapper.selectByName(tag.getTagname());
+				if (bookTags.size() <= 0)
+					bookTagMapper.insert(tag);
 			}
 		}
 		catch(Exception e)

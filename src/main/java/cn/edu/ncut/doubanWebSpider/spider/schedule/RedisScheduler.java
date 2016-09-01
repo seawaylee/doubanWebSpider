@@ -1,10 +1,7 @@
 package cn.edu.ncut.doubanWebSpider.spider.schedule;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import com.alibaba.fastjson.JSON;
-
+import org.apache.commons.codec.digest.DigestUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import us.codecraft.webmagic.Request;
@@ -43,9 +40,19 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
 	}
 	
 	public Jedis getJedis() {
-		Jedis jedis = pool.getResource();
-		jedis.select(index);
-		return jedis;
+		for (int i = 0; i < 50; i++)
+		{
+			try
+			{
+				Jedis jedis = pool.getResource();
+				jedis.select(index);
+				return jedis;
+			}catch(Exception e)
+			{
+				continue;
+			}
+		}
+		return null;
 	}
 
 	public void resetDuplicateCheck(Task task) {
@@ -64,72 +71,116 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
 	}
 	// URL放到 Set里进行查重
 	public boolean isDuplicate(Request request, Task task) {
-		Jedis jedis = getJedis();
-		try {
-			boolean isDuplicate = jedis.sismember(getSetKey(task),
-					request.getUrl());
-			if (!isDuplicate) {
-				jedis.sadd(getSetKey(task), request.getUrl());
-			}
-			return isDuplicate;
-		} 
-		catch(Exception e)
+		Jedis jedis = null;
+		for (int i = 0; i < 50; i++)
 		{
-			e.getMessage();
-			System.out.println("isDuplicate Error");
-			return false;
-		}finally {
-			pool.returnResource(jedis);
+			try
+			{
+				jedis = getJedis();
+				boolean isDuplicate = jedis.sismember(getSetKey(task),
+						request.getUrl());
+				if (!isDuplicate)
+				{
+					jedis.sadd(getSetKey(task), request.getUrl());
+				}
+				return isDuplicate;
+			} catch (Exception e)
+			{
+				e.getMessage();
+				try{
+					Thread.sleep(5000);
+				} catch (InterruptedException e1)
+				{
+					e1.printStackTrace();
+				}
+				System.out.println("isDuplicate Error");
+				continue;
+			} finally
+			{
+				pool.returnResource(jedis);
+			}
 		}
-
+		return false;
 	}
 	// 经过Set查重，如果不重复，加入待爬取队列
 	// 将待爬取url加入list的同时，会把链接的优先级、extra等信息加入hash列表
 	@Override
 	protected void pushWhenNoDuplicate(Request request, Task task) {
-		Jedis jedis = getJedis();
-		try {
-			jedis.rpush(getQueueKey(task), request.getUrl());
-//			jedis.rpush(QueueNameConstant.QUEUE_BOOK_INFO   + task.getUUID(), request.getUrl());
-//			jedis.rpush(QueueNameConstant.QUEUE_USER_DETAIL_INFO + task.getUUID(), request.getUrl()+"/about");
-			if (request.getExtras() != null) {
-				String field = DigestUtils.shaHex(request.getUrl());
-				String value = JSON.toJSONString(request);
-				jedis.hset((ITEM_PREFIX + task.getUUID()), field, value);
-			}
-		} catch(Exception e)
+		Jedis jedis = null;
+		for (int i = 0; i < 50; i++)
 		{
-			e.getMessage();
-			System.out.println("pushWhenNoDuplicate Error");
-		}finally {
-			pool.returnResource(jedis);
+
+			try
+			{
+				jedis = getJedis();
+				jedis.rpush(getQueueKey(task), request.getUrl());
+				if (request.getExtras() != null)
+				{
+					String field = DigestUtils.shaHex(request.getUrl());
+					String value = JSON.toJSONString(request);
+					jedis.hset((ITEM_PREFIX + task.getUUID()), field, value);
+				}
+				break;
+			} catch (Exception e)
+			{
+				e.getMessage();
+				System.out.println("pushWhenNoDuplicate Error");
+				try
+				{
+					Thread.sleep(5000);
+				} catch (InterruptedException e1)
+				{
+					e1.printStackTrace();
+				}
+				continue;
+			} finally
+			{
+				pool.returnResource(jedis);
+			}
 		}
 	}
 	// 从队列中提取Url
 	public synchronized Request poll(Task task) {
-		Jedis jedis = getJedis();
-		try {
-			String url = jedis.lpop(getQueueKey(task));
-			if (url == null) {
-				return null;
-			}
-			String key = ITEM_PREFIX + task.getUUID();
-			String field = DigestUtils.shaHex(url);
-			byte[] bytes = jedis.hget(key.getBytes(), field.getBytes());
-			if (bytes != null) {
-				Request o = JSON.parseObject(new String(bytes), Request.class);
-				return o;
-			}
-			Request request = new Request(url);
-			return request;
-		} catch(Exception e)
+		Jedis jedis = null;
+		for (int i = 0; i < 50; i++)
 		{
-			e.getMessage();
-			System.out.println("poll Error");
-			return null;
-		}finally {
-			pool.returnResource(jedis);
+
+			try
+			{
+				jedis = getJedis();
+				String url = jedis.lpop(getQueueKey(task));
+				if (url == null)
+				{
+					return null;
+				}
+				String key = ITEM_PREFIX + task.getUUID();
+				String field = DigestUtils.shaHex(url);
+				byte[] bytes = jedis.hget(key.getBytes(), field.getBytes());
+				if (bytes != null)
+				{
+					Request o = JSON.parseObject(new String(bytes), Request.class);
+					return o;
+				}
+				Request request = new Request(url);
+				return request;
+			} catch (Exception e)
+			{
+				e.getMessage();
+				System.out.println("poll Error");
+				try
+				{
+					Thread.sleep(5000);
+				} catch (InterruptedException e1)
+				{
+					e1.printStackTrace();
+				}
+				continue;
+			} finally
+			{
+				pool.returnResource(jedis);
+			}
 		}
+		return null;
 	}
 
 	protected String getSetKey(Task task) {

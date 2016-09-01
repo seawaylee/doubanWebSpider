@@ -10,4 +10,5 @@ public interface QueueNameConstant {
 	  static final String QUEUE_BOOK_ERROR = "queue_book_error";
 	  static final String QUEUE_SIMPLE_BOOK_ERROR = "queue_book_error";
 	  static final String QUEUE_COMMENT_ERROR = "queue_comment_error";
+	  static final String QUEUE_USER_ERROR = "queue_user_error";
 }

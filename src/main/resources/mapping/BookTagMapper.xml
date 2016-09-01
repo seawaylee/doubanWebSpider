@@ -11,6 +11,12 @@
 		id, tagname, url, category
 	</sql>
 
+	<select id="selectByName" resultMap="BaseResultMap"  parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tb_booktag
+		where tagname = #{tagname,jdbcType=VARCHAR}
+	</select>
 	<!-- 返回所有结果 -->
 <!-- 	<select id="selectAll" resultMap="BaseResultMap">
 		select

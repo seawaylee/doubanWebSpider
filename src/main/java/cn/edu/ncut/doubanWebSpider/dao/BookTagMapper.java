@@ -2,6 +2,9 @@ package cn.edu.ncut.doubanWebSpider.dao;
 
 import cn.edu.ncut.doubanWebSpider.model.BookTag;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
+
 public interface BookTagMapper extends Mapper<BookTag>{
 //    int deleteByPrimaryKey(Integer id);
 //
@@ -13,7 +16,7 @@ public interface BookTagMapper extends Mapper<BookTag>{
 //
 //    List<BookTag> selectAll();
 //    
-//    List<BookTag> selectByName(String tagName);
+      List<BookTag> selectByName(String tagName);
 //    
 //    int updateByPrimaryKeySelective(BookTag record);
 //

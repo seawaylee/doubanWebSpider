@@ -45,7 +45,7 @@ public class BookCommentProcessor implements PageProcessor
 // 				String ip = RedisUtil.sget("proxy_ip");
 // 				if(ip !=null && !ip.equals(""))
 // 					site.setHttpProxy(new HttpHost(ip));
- 				Thread.sleep(new Random().nextInt(50)*100);
+// 				Thread.sleep(new Random().nextInt(20)*100);
  			} catch (Exception e)
  			{
  				e.printStackTrace();
@@ -54,10 +54,10 @@ public class BookCommentProcessor implements PageProcessor
 			{
 				String bookno = page.getUrl().toString().split("/")[4];
 				String bookName = page.getHtml().xpath("//div[@id='wrapper']/div[@id='content']/h1/text()").toString().split("短评")[0].trim();
-				int commentsNum = page.getHtml().xpath("//div[@class='comment-list hot']/ul/li[@class='comment-item']").all().size();
-				List<String> userNames = page.getHtml().xpath("//div[@class='comment-list hot']/ul/li[@class='comment-item']/h3/span[@class='comment-info']/a/text()").all();
-				String totalRatingStr = page.getHtml().xpath("//div[@class='comment-list hot']/ul/li[@class='comment-item']/h3/span[@class='comment-info']/span/@title").all().toString();
-				String totalDD = page.getHtml().xpath("//div[@class='comment-list hot']/ul/li[@class='comment-item']/h3/span[@class='comment-info']/span/@title").all().toString();
+				int commentsNum = page.getHtml().xpath("//div[@class='comment-list new']/ul/li[@class='comment-item']").all().size();
+				List<String> userNames = page.getHtml().xpath("//div[@class='comment-list new']/ul/li[@class='comment-item']/h3/span[@class='comment-info']/a/text()").all();
+				String totalRatingStr = page.getHtml().xpath("//div[@class='comment-list new']/ul/li[@class='comment-item']/h3/span[@class='comment-info']/span/@title").all().toString();
+				String totalDD = page.getHtml().xpath("//div[@class='comment-list new']/ul/li[@class='comment-item']/h3/span[@class='comment-info']/span/@title").all().toString();
 				//掐头去尾  中间有俩空格就加一个null
 				String ratingStr = totalRatingStr.substring(1, totalRatingStr.length()-1);
 				List<String> ratings2 = new ArrayList<String>();
@@ -89,10 +89,10 @@ public class BookCommentProcessor implements PageProcessor
 						}
 					}
 				}
-				List<String> commentTime = page.getHtml().xpath("//div[@class='comment-list hot']/ul/li[@class='comment-item']/h3/span[@class='comment-info']/span/text()").regex("\\w+-\\w+-\\w+").all();
-				List<String> contents = page.getHtml().xpath("//div[@class='comment-list hot']/ul/li[@class='comment-item']/p/text()").all();
-				List<String> usefulNum = page.getHtml().xpath("//div[@class='comment-list hot']/ul/li[@class='comment-item']/h3/span[@class='comment-vote']/span/text()").all();
-				List<String> userUrls = page.getHtml().xpath("//div[@class='comment-list hot']/ul/li[@class='comment-item']/div[@class='avatar']/a/@href").all();
+				List<String> commentTime = page.getHtml().xpath("//div[@class='comment-list new']/ul/li[@class='comment-item']/h3/span[@class='comment-info']/span/text()").regex("\\w+-\\w+-\\w+").all();
+				List<String> contents = page.getHtml().xpath("//div[@class='comment-list new']/ul/li[@class='comment-item']/p/text()").all();
+				List<String> usefulNum = page.getHtml().xpath("//div[@class='comment-list new']/ul/li[@class='comment-item']/h3/span[@class='comment-vote']/span/text()").all();
+				List<String> userUrls = page.getHtml().xpath("//div[@class='comment-list new']/ul/li[@class='comment-item']/div[@class='avatar']/a/@href").all();
 				String commentUrls = page.getUrl().toString();
 				
 				for(int i=0; i<commentsNum; i++)
@@ -103,7 +103,7 @@ public class BookCommentProcessor implements PageProcessor
 					comment.setUsername(removeFourChar(userNames.get(i)));
 					comment.setRating(getRatingByString(ratings2.get(i)));
 					comment.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(commentTime.get(i)));
-					comment.setContent(contents.get(i));
+					comment.setContent(removeFourChar(contents.get(i)));
 					comment.setUsefulnum(Integer.parseInt(usefulNum.get(i)));
 					comment.setUserurl(userUrls.get(i));
 					comment.setCommenturl(commentUrls);
@@ -118,12 +118,12 @@ public class BookCommentProcessor implements PageProcessor
 				System.out.println("书评Xpath解析失败");
 			}
 			//下一页Url
-			int currentPageNo = Integer.parseInt(page.getUrl().toString().split("hot\\?p=")[1]);
+			int currentPageNo = Integer.parseInt(page.getUrl().toString().split("new\\?p=")[1]);
 			String nextPageXpath = "//div[@class='paginator-wrapper']/ul[@class='comment-paginator']/li/a/@href";
-			String nextPageUrl = page.getHtml().xpath(nextPageXpath).regex(".*hot\\?p=" + (currentPageNo+1)).get();
+			String nextPageUrl = page.getHtml().xpath(nextPageXpath).regex(".*new\\?p=" + (currentPageNo+1)).get();
 			if(!(nextPageUrl == null || nextPageUrl.equals("")))
 			{
-				page.addTargetRequest(new Request(nextPageUrl).putExtra("pageNo",currentPageNo+1).setPriority(2));
+				page.addTargetRequest(new Request(nextPageUrl).putExtra("pageNo",currentPageNo+1).setPriority(0));
 			}
 		}
 		else
@@ -160,7 +160,7 @@ public class BookCommentProcessor implements PageProcessor
 				for (int j = 0; j < 4; j++) {
 					conbyte[i+j]=0x30;
 				}
-				i += 3;
+				i += 4;
 			}
 		}
 		content = new String(conbyte);

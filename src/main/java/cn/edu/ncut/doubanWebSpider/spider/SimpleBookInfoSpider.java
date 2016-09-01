@@ -23,7 +23,7 @@ public class SimpleBookInfoSpider implements Crawler
 	public void crawl()
 	{
 		//RedisUtil.init();
-		List<BookTag> bookTag = bookTagMapper.selectAll();
+		List<BookTag> bookTag = bookTagMapper.selectAll().subList(145,173);
 		Request[] requests = new Request[bookTag.size()];
 		int i = 0;
 		for(BookTag tag : bookTag)
@@ -35,8 +35,8 @@ public class SimpleBookInfoSpider implements Crawler
 		//.addUrl("http://book.douban.com/tag/古龙?start=0&Type=T")
 		.addPipeline(simpleBookInfoPipeline)
 		.setDownloader(new HttpClientDownloader())
-		.scheduler(new RedisScheduler(pool,0, QueueNameConstant.QUEUE_SIMPLE_BOOK_INFO))
-		.thread(1).run();
+		//.scheduler(new RedisScheduler(pool,0, QueueNameConstant.QUEUE_SIMPLE_BOOK_INFO))
+		.thread(8).run();
 	}
 	public static void main(String[] args)
 	{

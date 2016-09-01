@@ -1,10 +1,9 @@
 package cn.edu.ncut.doubanWebSpider.dao;
 
-import java.util.List;
-
 import cn.edu.ncut.doubanWebSpider.model.BookComment;
-import cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 public interface BookCommentMapper extends Mapper<BookComment>{
 	//    int deleteByPrimaryKey(Integer id);
@@ -25,4 +24,5 @@ public interface BookCommentMapper extends Mapper<BookComment>{
 	List<BookComment> getCommentTimeStatistic();
 	List<BookComment> selectAllHasRatings();
 	List<BookComment> selectAllNoRatings();
+	List<String> findAllCommentersNo();
 }

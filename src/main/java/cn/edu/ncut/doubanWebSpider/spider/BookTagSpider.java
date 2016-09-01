@@ -16,7 +16,9 @@ public class BookTagSpider implements Crawler
 	private BookTagPipeline bookTagPipeline; 
 	public void crawl()
 	{
-		Spider.create(new BookTagProcessor()).addUrl("http://book.douban.com/tag/?view=type&icn=index-sorttags-all")
+		String typeUrl = "http://book.douban.com/tag/?view=type&icn=index-sorttags-all";
+		String url = "https://book.douban.com/tag/?view=cloud";
+		Spider.create(new BookTagProcessor()).addUrl(url)
 		.addPipeline(bookTagPipeline)
 		.thread(1).run();
 	}

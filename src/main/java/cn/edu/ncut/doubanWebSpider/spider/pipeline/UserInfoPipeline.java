@@ -1,9 +1,7 @@
 package cn.edu.ncut.doubanWebSpider.spider.pipeline;
 
-
-import cn.edu.ncut.doubanWebSpider.dao.CommentMapper;
-import cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo;
-import cn.edu.ncut.doubanWebSpider.model.weibo.Comment;
+import cn.edu.ncut.doubanWebSpider.dao.UserInfoMapper;
+import cn.edu.ncut.doubanWebSpider.model.UserInfo;
 import cn.edu.ncut.doubanWebSpider.spider.schedule.QueueNameConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,27 +13,27 @@ import utils.RedisUtil;
 import java.util.Map;
 
 /**
- * @author NikoBelic
- * @create 16/8/18 23:26
+ * Created by lixiwei on 2016/8/29.
  */
 @Component
-public class CommentPipeline implements Pipeline
+public class UserInfoPipeline implements Pipeline
 {
     @Autowired
-    private CommentMapper commentMapper;
-    @Override
+    private UserInfoMapper userInfoMapper;
+
     public void process(ResultItems resultItems, Task task)
     {
         for(Map.Entry<String, Object> entry : resultItems.getAll().entrySet())
         {
             try
             {
-                Comment comment = (Comment) entry.getValue();
-                commentMapper.insert(comment);
+                UserInfo user = (UserInfo) entry.getValue();
+                userInfoMapper.insert(user);
             }
             catch(Exception e)
             {
-                System.out.println("插入简要微博评论数据异常:" + e.getCause() );
+                System.out.println("插入用户数据异常:" + e.getCause() );
+                RedisUtil.push(QueueNameConstant.QUEUE_USER_ERROR,resultItems.getRequest().getUrl());
             }
         }
     }

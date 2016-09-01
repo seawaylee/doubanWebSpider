@@ -72,7 +72,9 @@
 		select
 		<include refid="Base_Column_List"/>
 		from tb_simplebookinfo t
-		order by t.tag desc
+		where t.ratingnum > 100000
+--  		where t.id > 42436
+-- 		order by t.ratingnum asc
 	</select>
 	<!-- 更新bookno -->
 	<update id="update" parameterType="cn.edu.ncut.doubanWebSpider.model.SimpleBookInfo">
