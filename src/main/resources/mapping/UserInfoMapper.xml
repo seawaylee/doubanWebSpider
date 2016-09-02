@@ -9,15 +9,23 @@
     <result column="location" jdbcType="VARCHAR" property="location" />
     <result column="time" jdbcType="DATE" property="time" />
     <result column="introduction" jdbcType="VARCHAR" property="introduction" />
-    <result column="reading" jdbcType="VARCHAR" property="reading" />
-    <result column="hasread" jdbcType="VARCHAR" property="hasread" />
-    <result column="wantread" jdbcType="VARCHAR" property="wantread" />
-    <result column="followees" jdbcType="VARCHAR" property="followees" />
-    <result column="followers" jdbcType="VARCHAR" property="followers" />
+    <result column="reading" jdbcType="INTEGER" property="reading" />
+    <result column="hasread" jdbcType="INTEGER" property="hasread" />
+    <result column="wantread" jdbcType="INTEGER" property="wantread" />
+    <result column="followees" jdbcType="INTEGER" property="followees" />
+    <result column="followers" jdbcType="INTEGER" property="followers" />
     <result column="pic" jdbcType="VARCHAR" property="pic" />
   </resultMap>
   <sql id="Base_Column_List">
     id, userno, name, signature, location, time, introduction, reading, hasread, wantread, 
     followees, followers,pic
   </sql>
+
+  <!-- 根据Userno查询用户 -->
+  <select id="selectByUserno" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_userinfo t
+    where t.userno = #{userno}
+  </select>
 </mapper>

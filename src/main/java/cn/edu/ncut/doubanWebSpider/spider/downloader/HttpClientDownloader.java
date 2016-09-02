@@ -98,6 +98,8 @@ public class HttpClientDownloader extends us.codecraft.webmagic.downloader.Abstr
                 return page;
             } else {
                 logger.warn("code error " + statusCode + "\t" + request.getUrl());
+                //FileUtils.writeStrToFile(request.getUrl().toString() + "\r\n","E:\\IdeaProjects\\doubanWebSpider\\src\\main\\resources\\user_403.txt");
+                //addToCycleRetry(request, site);
 //                RedisUtil.sremove(request.getExtra("set_" + "RedisSuffix").toString(), request.getUrl().toString());
 //                System.out.println("SRemove:" + request.getExtra("set_" + "RedisSuffix").toString() + "###" +request.getUrl().toString());
 //                RedisUtil.push(request.getExtra("queue_" + "RedisSuffix").toString(), request.getUrl().toString());

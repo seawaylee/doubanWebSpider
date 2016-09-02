@@ -4,12 +4,12 @@ import cn.edu.ncut.doubanWebSpider.dao.BookCommentMapper;
 import cn.edu.ncut.doubanWebSpider.spider.downloader.HttpClientDownloader;
 import cn.edu.ncut.doubanWebSpider.spider.pipeline.UserInfoPipeline;
 import cn.edu.ncut.doubanWebSpider.spider.process.UserInfoProcess;
-import cn.edu.ncut.doubanWebSpider.spider.schedule.QueueNameConstant;
-import cn.edu.ncut.doubanWebSpider.spider.schedule.RedisScheduler;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Spider;
 
+import java.io.*;
 import java.util.List;
 
 /**
@@ -26,13 +26,27 @@ public class UserInfoSpider implements Crawler
     public void crawl()
     {
         //List<String> userUrls = commentMapper.findAllCommentersNo();
+        File f = new File("E:\\IdeaProjects\\doubanWebSpider\\src\\main\\resources\\user_403.txt");
+        List<String> userUrls = null;
+        try
+        {
+            userUrls = FileUtils.readLines(f);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println("数量:" + userUrls.size());
+        String[] urls = new String[userUrls.size()];
+        for (int i = 0; i < userUrls.size(); i++)
+        {
+            urls[i] = userUrls.get(i);
+        }
+
         Spider.create(new UserInfoProcess())
-                //.addUrl((String[]) userUrls.toArray())
-                .addUrl("http://www.douban.com/people/linyouchen/")
+                .addUrl(urls)
                 .addPipeline(userInfoPipeline)
                 .setDownloader(new HttpClientDownloader())
-                //.scheduler(new RedisScheduler(pool,0, QueueNameConstant.QUEUE_USER_INFO))
-                .thread(1).run();
+                .thread(16).run();
     }
     public static void main(String[] args)
     {

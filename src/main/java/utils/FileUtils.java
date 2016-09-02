@@ -1,19 +1,6 @@
 package utils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.RandomAccessFile;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 
 public class FileUtils
 {
@@ -73,7 +60,7 @@ public class FileUtils
 	/**
 	 * 以字符为单位读取文件，常用于读文本，数字等类型的文件
 	 */
-	public static String readFileByChars(String fileName,String coder)
+	public static String readFileByChars(String fileName, String coder)
 	{
 		File file = new File(fileName);
 		Reader reader = null;
@@ -118,7 +105,7 @@ public class FileUtils
 			reader.close();
 		} catch (IOException e)
 		{
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} finally
 		{
 			if (reader != null)
@@ -197,6 +184,8 @@ public class FileUtils
 	{
 		try
 		{
+			// FileOutputStream fos = new FileOutputStream(new
+			// File("D:\\DwcrTmpFile\\" + filename),true);
 			File file = new File(filename);
 			//如果文件所在文件夹不存在 则 创建文件夹
 			if (!file.getParentFile().exists())
@@ -215,9 +204,11 @@ public class FileUtils
 			fos.close();
 		} catch (FileNotFoundException e)
 		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e)
 		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -255,7 +246,7 @@ public class FileUtils
 		}
 	}
 	
-	public static void writeFileByByte(String path,byte[] contents)
+	public static void writeFileByByte(String path, byte[] contents)
 	{
 		try
 		{

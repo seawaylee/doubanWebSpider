@@ -28,12 +28,13 @@ public class UserInfoPipeline implements Pipeline
             try
             {
                 UserInfo user = (UserInfo) entry.getValue();
-                userInfoMapper.insert(user);
+                if (userInfoMapper.selectByUserno(user.getUserno()).size() <= 0)
+                    userInfoMapper.insert(user);
             }
             catch(Exception e)
             {
                 System.out.println("插入用户数据异常:" + e.getCause() );
-                RedisUtil.push(QueueNameConstant.QUEUE_USER_ERROR,resultItems.getRequest().getUrl());
+                //RedisUtil.push(QueueNameConstant.QUEUE_USER_ERROR,resultItems.getRequest().getUrl());
             }
         }
     }

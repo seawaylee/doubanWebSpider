@@ -1,7 +1,8 @@
 package cn.edu.ncut.doubanWebSpider.model;
 
+import javax.persistence.Table;
 import java.util.Date;
-
+@Table(name = "tb_userinfo")
 public class UserInfo {
     private Integer id;
 
@@ -17,15 +18,15 @@ public class UserInfo {
 
     private String introduction;
 
-    private String reading;
+    private Integer reading;
 
-    private String hasread;
+    private Integer hasread;
 
-    private String wantread;
+    private Integer wantread;
 
-    private String followees;
+    private Integer followees;
 
-    private String followers;
+    private Integer followers;
 
     private String pic;
 
@@ -85,44 +86,54 @@ public class UserInfo {
         this.introduction = introduction == null ? null : introduction.trim();
     }
 
-    public String getReading() {
+    public Integer getReading()
+    {
         return reading;
     }
 
-    public void setReading(String reading) {
-        this.reading = reading == null ? null : reading.trim();
+    public void setReading(Integer reading)
+    {
+        this.reading = reading;
     }
 
-    public String getHasread() {
+    public Integer getHasread()
+    {
         return hasread;
     }
 
-    public void setHasread(String hasread) {
-        this.hasread = hasread == null ? null : hasread.trim();
+    public void setHasread(Integer hasread)
+    {
+        this.hasread = hasread;
     }
 
-    public String getWantread() {
+    public Integer getWantread()
+    {
         return wantread;
     }
 
-    public void setWantread(String wantread) {
-        this.wantread = wantread == null ? null : wantread.trim();
+    public void setWantread(Integer wantread)
+    {
+        this.wantread = wantread;
     }
 
-    public String getFollowees() {
+    public Integer getFollowees()
+    {
         return followees;
     }
 
-    public void setFollowees(String followees) {
-        this.followees = followees == null ? null : followees.trim();
+    public void setFollowees(Integer followees)
+    {
+        this.followees = followees;
     }
 
-    public String getFollowers() {
+    public Integer getFollowers()
+    {
         return followers;
     }
 
-    public void setFollowers(String followers) {
-        this.followers = followers == null ? null : followers.trim();
+    public void setFollowers(Integer followers)
+    {
+        this.followers = followers;
     }
 
     public String getPic()

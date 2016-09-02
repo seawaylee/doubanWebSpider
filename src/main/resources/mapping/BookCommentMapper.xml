@@ -60,9 +60,10 @@
 		from tb_bookcomment t
 		where t.rating = -1
 	</select>
-	<!--<select id="findAllCommentersNo" resultMap="String">-->
-		<!--select distinct(userurl) from tb_bookcomment-->
-	<!--</select>-->
+	<!-- 查询所有评论用户 去重 -->
+	<select id="findAllCommentersNo" resultType="java.lang.String">
+		select distinct(userurl) from tb_bookcomment
+	</select>
 	<!-- 获取所有评论 -->
 	<!-- <select id="selectAll" resultMap="BaseResultMap">
 		select
