@@ -363,6 +363,51 @@
 				</plugins>
 			</build>
 		</profile>
-
+		<profile>
+			<id>user</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.1.1</version>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<mainClass>cn.edu.ncut.doubanWebSpider.spider.UserInfoSpider</mainClass>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>userbookstatus</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.1.1</version>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<mainClass>cn.edu.ncut.doubanWebSpider.spider.UserBookStatusSpider</mainClass>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>
