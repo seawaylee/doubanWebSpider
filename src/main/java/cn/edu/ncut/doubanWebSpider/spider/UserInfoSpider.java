@@ -31,7 +31,7 @@ public class UserInfoSpider implements Crawler
     {
         //List<String> userUrls = commentMapper.findAllCommentersNo();
         //File f = new File("E:\\IdeaProjects\\doubanWebSpider\\src\\main\\resources\\user_403.txt");
-        //File f = new File("E:\\IdeaProjects\\doubanWebSpider\\src\\main\\resources\\user_403.txt");
+        File f = new File("E:\\IdeaProjects\\doubanWebSpider\\src\\main\\resources\\user_403.txt");
         // 排除已经下载过的地址
         //List<String> userUrls = null;
         //try
@@ -60,6 +60,7 @@ public class UserInfoSpider implements Crawler
         //}
 
         Spider.create(new UserInfoProcess())
+                //.addUrl(urls)
                 .addUrl("https://www.douban.com/people/4400922/")
                 .addPipeline(userInfoPipeline)
                 .setDownloader(new HttpClientDownloader())
