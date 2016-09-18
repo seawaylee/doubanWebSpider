@@ -24,7 +24,7 @@ public class SimpleBookInfoProcessor implements PageProcessor
             .setUserAgent(AGENTS[new Random().nextInt(5)])
             .setSleepTime(0)
             .setRetryTimes(3)
-            .setCycleRetryTimes(100)
+            .setCycleRetryTimes(1000)
             .addCookie("Cookie", COOKIE);
 
     public Site getSite()

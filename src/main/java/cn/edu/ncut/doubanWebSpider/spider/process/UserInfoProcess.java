@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class UserInfoProcess implements PageProcessor
 {
-    public static final String COOKIE = "bid=1yxWIEOOd5Y; ps=y; ct=y; ap=1; gr_user_id=a8864a30-9043-4f46-9496-673388b9d633; viewed=\"3004255\"; regfromurl=https://www.douban.com/people/miloyip/; regfromtitle=Milo; _vwo_uuid_v2=50DDF2B082D88A71BFAE1586A5D7C2C7|721b719f53994e67f55bebcf0581b77c; _pk_ref.100001.3ac3=%5B%22%22%2C%22%22%2C1473840966%2C%22https%3A%2F%2Fwww.douban.com%2Fmisc%2Fsorry%3Foriginal-url%3Dhttps%253A%252F%252Fbook.douban.com%252Fpeople%252F139539280%252Fcollect%22%5D; ue=\"931185214@qq.com\"; dbcl2=\"150773536:ZDw4AsjXzPs\"; ck=Znig; push_noty_num=0; push_doumail_num=0; _pk_id.100001.3ac3=6f0b23f692748f2b.1471917101.16.1473840982.1473222482.; _pk_ses.100001.3ac3=*\";";
+    public static final String COOKIE = "bid=1yxWIEOOd5Y; ps=y; ct=y; gr_user_id=a8864a30-9043-4f46-9496-673388b9d633; regfromurl=https://www.douban.com/people/miloyip/; regfromtitle=Milo; ll=\"108288\"; viewed=\"6781808_3004255\"; _vwo_uuid_v2=50DDF2B082D88A71BFAE1586A5D7C2C7|721b719f53994e67f55bebcf0581b77c; ap=1; ue=\"931185214@qq.com\"; dbcl2=\"150773536:/50e1rbedZc\"; ck=XcrJ; _pk_ref.100001.8cb4=%5B%22%22%2C%22%22%2C1474190845%2C%22https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3D2jfFOu1P-zFpzNmRnZi15Umv74MibVG6qHHlAv5Rs0gyA40czLxsSRhHiAJm2JZxBiAUbP7goHailuE287_7j_%26wd%3D%26eqid%3Dfa49e04a000030b90000000257dd3637%22%5D; push_noty_num=0; push_doumail_num=0; _pk_id.100001.8cb4=d906a100e893f1e9.1472807814.10.1474191328.1474187302.; _pk_ses.100001.8cb4=*";
     public static final String[] COOKIES = {
             "bid=1yxWIEOOd5Y; ps=y; ct=y; ap=1; gr_user_id=a8864a30-9043-4f46-9496-673388b9d633; viewed=\"3004255\"; regfromurl=https://www.douban.com/people/miloyip/; regfromtitle=Milo; _vwo_uuid_v2=50DDF2B082D88A71BFAE1586A5D7C2C7|721b719f53994e67f55bebcf0581b77c; _pk_ref.100001.3ac3=%5B%22%22%2C%22%22%2C1473840966%2C%22https%3A%2F%2Fwww.douban.com%2Fmisc%2Fsorry%3Foriginal-url%3Dhttps%253A%252F%252Fbook.douban.com%252Fpeople%252F139539280%252Fcollect%22%5D; ue=\"931185214@qq.com\"; dbcl2=\"150773536:ZDw4AsjXzPs\"; ck=Znig; push_noty_num=0; push_doumail_num=0; _pk_id.100001.3ac3=6f0b23f692748f2b.1471917101.16.1473840982.1473222482.; _pk_ses.100001.3ac3=*"};
             //,"bid=1yxWIEOOd5Y; ps=y; ct=y; gr_user_id=a8864a30-9043-4f46-9496-673388b9d633; viewed=\"3004255\"; regfromurl=https://www.douban.com/people/miloyip/; regfromtitle=Milo; _vwo_uuid_v2=50DDF2B082D88A71BFAE1586A5D7C2C7|721b719f53994e67f55bebcf0581b77c; _pk_ref.100001.3ac3=%5B%22%22%2C%22%22%2C1473840966%2C%22https%3A%2F%2Fwww.douban.com%2Fmisc%2Fsorry%3Foriginal-url%3Dhttps%253A%252F%252Fbook.douban.com%252Fpeople%252F139539280%252Fcollect%22%5D; push_noty_num=0; push_doumail_num=0; ap=1; _pk_id.100001.3ac3=6f0b23f692748f2b.1471917101.16.1473841102.1473222482.; _pk_ses.100001.3ac3=*; ue=\"13522781970@163.com\"; dbcl2=\"150649926:qKRFJp2v0no\""
@@ -49,15 +49,15 @@ public class UserInfoProcess implements PageProcessor
         try
         {
             site.setUserAgent(AGENTS[new Random().nextInt(5)])
-            .addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
-                    .addHeader("Accept-Encoding",":gzip, deflate, sdch, br")
-                    .addHeader("Accept-Language",":zh-CN,zh;q=0.8,en;q=0.6")
-                    .addHeader("Cache-Control","max-age=0")
-                    .addHeader("Connection",":keep-alive")
+            //.addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+                    //.addHeader("Accept-Encoding",":gzip, deflate, sdch, br")
+                    //.addHeader("Accept-Language",":zh-CN,zh;q=0.8,en;q=0.6")
+                    //.addHeader("Cache-Control","max-age=0")
+                    //.addHeader("Connection",":keep-alive")
                     //.addHeader("Cookie",COOKIES[new Random().nextInt(3)] + System.currentTimeMillis())
-                    .addHeader("Host","book.douban.com")
-                    .addHeader("Upgrade-Insecure-Requests","1")
-                    .addHeader("Referer","https://book.douban.com/subject/26414020/comments/");
+                    .addHeader("Host","www.douban.com");
+                    //.addHeader("Upgrade-Insecure-Requests","1")
+                    //.addHeader("Referer","https://book.douban.com/subject/26414020/comments/");
             Thread.sleep(new Random().nextInt(30)*100);
         } catch (Exception e)
         {

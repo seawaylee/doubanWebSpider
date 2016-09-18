@@ -31,16 +31,16 @@ public class UserInfoSpider implements Crawler
     {
         //List<String> userUrls = commentMapper.findAllCommentersNo();
         //File f = new File("E:\\IdeaProjects\\doubanWebSpider\\src\\main\\resources\\user_403.txt");
-        File f = new File("E:\\IdeaProjects\\doubanWebSpider\\src\\main\\resources\\user_403.txt");
+        File f = new File("/Users/lixiwei-mac/Documents/IdeaProjects/doubanWebSpider/src/main/resources/user_403.txt");
         // 排除已经下载过的地址
-        //List<String> userUrls = null;
-        //try
-        //{
-        //    userUrls = FileUtils.readLines(f);
-        //} catch (IOException e)
-        //{
-        //    e.printStackTrace();
-        //}
+        List<String> userUrls = null;
+        try
+        {
+            userUrls = FileUtils.readLines(f);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         //List<UserInfo> userInfos = userInfoMapper.selectAll();
         //int ci = 1;
         //for (UserInfo userInfo : userInfos)
@@ -50,18 +50,19 @@ public class UserInfoSpider implements Crawler
         //    if (userUrls.contains(currentUrl))
         //    {
         //        userUrls.remove(currentUrl);
+        //        FileUtils.writeStringToFile(new File());
         //    }
         //}
-        //System.out.println("数量:" + userUrls.size());
-        //String[] urls = new String[userUrls.size()];
-        //for (int i = 0; i < userUrls.size(); i++)
-        //{
-        //    urls[i] = userUrls.get(i);
-        //}
+        System.out.println("数量:" + userUrls.size());
+        String[] urls = new String[userUrls.size()];
+        for (int i = 0; i < userUrls.size(); i++)
+        {
+            urls[i] = userUrls.get(i);
+        }
 
         Spider.create(new UserInfoProcess())
-                //.addUrl(urls)
-                .addUrl("https://www.douban.com/people/4400922/")
+                .addUrl(urls)
+                //.addUrl("https://www.douban.com/people/4400922/")
                 .addPipeline(userInfoPipeline)
                 .setDownloader(new HttpClientDownloader())
                 .thread(1).run();
