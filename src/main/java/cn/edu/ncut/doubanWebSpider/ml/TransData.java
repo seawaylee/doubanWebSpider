@@ -43,16 +43,23 @@ public class TransData
 	 */
 	public void doTransCommentHasRating(String destFilePath)
 	{
-//		防止内存溢出   一次取1W
-		List<BookComment> commentList = commentDao.selectAllHasRatings();
+//		防止内存溢出   一次取100W
 		int rowCount = 0;
-		for (BookComment comment : commentList)
+		List<BookComment> commentList;
+		while (true)
 		{
-			String data = comment.getUserno() + "," + comment.getBookno() + "," + comment.getRating();
-			FileUtils.writeStrToFile(data + "\r\n", destFilePath);
-			rowCount++;
+			commentList = commentDao.selectAllHasRatings(rowCount);
+			if (commentList.size() <= 0)
+				break;
+
+			for (BookComment comment : commentList)
+			{
+				String data = comment.getUserno() + "," + comment.getBookno() + "," + comment.getRating();
+				FileUtils.writeStrToFile(data + "\r\n", destFilePath);
+				rowCount++;
+			}
+			System.out.println("成功转换 " + rowCount + "  条有评分评论");
 		}
-		System.out.println("成功转换 " + rowCount + "  条有评分评论");
 	}
 
 	/**
@@ -73,6 +80,33 @@ public class TransData
 		}
 		System.out.println("成功转换 " + rowCount + "  条无评分评论");
 	}
+
+	/**
+	 * 抽取有评分的评论数据作为朴素贝叶斯训练语料
+	 * @Author NikoBelic
+	 * @Date 19/12/2016 21:04
+	 */
+	public void doTransCommentPNRating(String destFilePath)
+	{
+		List<BookComment> commentList;
+		int rowCount = 0;
+		String data;
+		//while (true)
+		//{
+			commentList = commentDao.selectByRatings(5,rowCount);
+			//if (commentList.size() <= 0)
+				//break;
+			for (BookComment comment : commentList)
+			{
+				data = comment.getUserno() + "##*##" + comment.getBookno() + "##*##" + comment.getRating() + "##*##"
+						+ comment.getContent().trim();
+				FileUtils.writeStrToFile(data + "\r\n", destFilePath);
+				rowCount++;
+			}
+			System.out.println("成功转换 " + rowCount + "  条有PN极性评论");
+		//}
+	}
+
 	/**
 	 * 转换 BookNo,BookTilte,BookTag
 	 * @author 李熙伟
@@ -143,10 +177,11 @@ public class TransData
 	public static void main(String[] args)
 	{
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:ssm/spring-*.xml");
-		applicationContext.getBean(TransData.class).addBookno();
-//		applicationContext.getBean(TransData.class).doTransCommentNoRating(
+		//applicationContext.getBean(TransData.class).doTransCommentHasRating("/Users/lixiwei-mac/Documents/DataSet/recommend/UserComment.txt");
+		//applicationContext.getBean(TransData.class).doTransCommentNoRating(
 //				"/Users/lixiwei-mac/Documents/DataSet/doubanReading/rating/UserComment.txt");
 //		applicationContext.getBean(TransData.class).doTransBookNoWithName(
-//				"/Users/lixiwei-mac/Documents/DataSet/doubanReading/rating/BookName.txt");
+//				"/Users/lixiwei-mac/Documents/DataSet/recommend/BookName.txt");
+		applicationContext.getBean(TransData.class).doTransCommentPNRating("/Users/lixiwei-mac/Documents/DataSet/recommend/EqNumUserComment.txt");
 	}
 }

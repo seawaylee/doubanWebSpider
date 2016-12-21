@@ -46,12 +46,27 @@
 		GROUP BY year(t.time)
 	</select>
 	<!--获取有评分的评论-->
-	<select id="selectAllHasRatings" resultMap="BaseResultMap">
+	<select id="selectAllHasRatings" parameterType="INTEGER" resultMap="BaseResultMap" >
 		select
-		userno,bookno,rating
+		userno,bookno,rating,content
 		from tb_bookcomment t
 		where t.rating != -1
-
+		limit #{from},1000000
+	</select>
+	<!--获取1分或5分的极性评论-->
+	<select id="selectAllPNRatings" parameterType="INTEGER" resultMap="BaseResultMap" >
+		select
+		userno,bookno,rating,content
+		from tb_bookcomment t
+		where t.rating = 1 or t.rating = 5
+		limit #{from},1000000
+	</select>
+	<select id="selectByRatings" parameterType="INTEGER" resultMap="BaseResultMap" >
+		select
+		userno,bookno,rating,content
+		from tb_bookcomment t
+		where t.rating = #{rating}
+		limit #{from},87864
 	</select>
 	<!--获取所有没评分的记录-->
 	<select id="selectAllNoRatings" resultMap="BaseResultMap">
