@@ -39,7 +39,7 @@ public class TransData
 	/**
 	 *  将有评分的评论记录存储到文件 Format: UserNo,BookNo,Rating
 	 * 
-	 * @author 李熙伟 2016年3月2日
+	 * @author seawayLee 2016年3月2日
 	 */
 	public void doTransCommentHasRating(String destFilePath)
 	{
@@ -65,7 +65,7 @@ public class TransData
 	/**
 	 * 将没有评分的记录单独存储 Format: UserNo,BookNo,Content
 	 * 
-	 * @author 李熙伟 2016年3月2日
+	 * @author seawayLee 2016年3月2日
 	 */
 	public void doTransCommentNoRating(String destFilePath)
 	{
@@ -109,7 +109,7 @@ public class TransData
 
 	/**
 	 * 转换 BookNo,BookTilte,BookTag
-	 * @author 李熙伟
+	 * @author seawayLee
 	 * 2016年3月3日
 	 */
 	public void doTransBookNoWithName(String destFilePath)

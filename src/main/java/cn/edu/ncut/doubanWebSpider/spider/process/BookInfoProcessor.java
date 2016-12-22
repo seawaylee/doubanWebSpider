@@ -75,7 +75,7 @@ public class BookInfoProcessor implements PageProcessor
 	/**
 	 * 图书列表 抽取图书详细信息URL 获取下一页图书列表URL
 	 * 
-	 * @author 李熙伟 2016年2月23日
+	 * @author seawayLee 2016年2月23日
 	 */
 	public void processForBookList(Page page)
 	{
@@ -106,7 +106,7 @@ public class BookInfoProcessor implements PageProcessor
 	/**
 	 * 图书详细信息
 	 * 
-	 * @author 李熙伟 2016年2月23日
+	 * @author seawayLee 2016年2月23日
 	 */
 	public void processForBookInfo(Page page)
 	{

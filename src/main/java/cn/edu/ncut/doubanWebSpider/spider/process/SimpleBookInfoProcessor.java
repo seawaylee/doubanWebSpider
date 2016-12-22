@@ -52,7 +52,7 @@ public class SimpleBookInfoProcessor implements PageProcessor
     /**
      * 图书列表 入保存图书简要信息  获取下一页图书列表URL
      *
-     * @author 李熙伟 2016年2月23日
+     * @author seawayLee 2016年2月23日
      */
     public void processForBookList(Page page)
     {

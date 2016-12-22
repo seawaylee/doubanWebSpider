@@ -51,7 +51,7 @@ public class BaseController
 	/**
 	 * 根据书名查询信息
 	 *
-	 * @author 李熙伟 2016年3月4日
+	 * @author seawayLee 2016年3月4日
 	 */
 	@RequestMapping(value = "searchByName")
 	public @ResponseBody String searchByName(
@@ -71,7 +71,7 @@ public class BaseController
 	/**
 	 * 查看基本信息数量
 	 *
-	 * @author 李熙伟 2016年3月4日
+	 * @author seawayLee 2016年3月4日
 	 */
 	@RequestMapping(value = "getAmount/{type}")
 	public @ResponseBody Integer getAmountByType(@PathVariable String type,HttpServletRequest request)
@@ -104,7 +104,7 @@ public class BaseController
 	/**
 	 * 热门标签图书数量分布
 	 *
-	 * @author 李熙伟 2016年3月4日
+	 * @author seawayLee 2016年3月4日
 	 */
 	@RequestMapping("getBookCount")
 	public @ResponseBody BarInfoData getBookCount()
@@ -126,7 +126,7 @@ public class BaseController
 	}
 	/**
 	 * 图书评分排序
-	 * @author 李熙伟
+	 * @author seawayLee
 	 * 2016年3月23日
 	 */
 	@RequestMapping("getBookRatingSort")
@@ -149,7 +149,7 @@ public class BaseController
 	}
 	/**
 	 * 评论数最多的用户
-	 * @author 李熙伟
+	 * @author seawayLee
 	 * 2016年3月23日
 	 */
 	@RequestMapping("getCommentSort")
